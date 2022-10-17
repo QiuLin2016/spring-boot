@@ -60,13 +60,21 @@ public enum WebApplicationType {
 	static WebApplicationType deduceFromClasspath() {
 		if (ClassUtils.isPresent(WEBFLUX_INDICATOR_CLASS, null) && !ClassUtils.isPresent(WEBMVC_INDICATOR_CLASS, null)
 				&& !ClassUtils.isPresent(JERSEY_INDICATOR_CLASS, null)) {
+			// org.springframework.web.reactive.DispatcherHandler 存在
+			// org.springframework.web.servlet.DispatcherServlet 不存在
+			// org.glassfish.jersey.servlet.ServletContainer 不存在 代表为响应式WebApplication
+			//应用程序应作为响应式 Web 应用程序运行，并启动嵌入式响应式 Web 服务器。
 			return WebApplicationType.REACTIVE;
 		}
 		for (String className : SERVLET_INDICATOR_CLASSES) {
 			if (!ClassUtils.isPresent(className, null)) {
+				// jakarta.servlet.Servlet
+				// org.springframework.web.context.ConfigurableWebApplicationContezxt 这两个类不存在
+				// 不是 Web 应用程序运行，也不应启动嵌入式 Web 服务器
 				return WebApplicationType.NONE;
 			}
 		}
+		// 应用程序作为基于 servlet 的 Web 应用程序运行，并启动嵌入式 servlet Web 服务器。
 		return WebApplicationType.SERVLET;
 	}
 

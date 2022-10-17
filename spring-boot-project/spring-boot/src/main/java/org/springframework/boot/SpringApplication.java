@@ -272,6 +272,7 @@ public class SpringApplication {
 		Assert.notNull(primarySources, "PrimarySources must not be null");
 		this.primarySources = new LinkedHashSet<>(Arrays.asList(primarySources));
 		this.webApplicationType = WebApplicationType.deduceFromClasspath();
+		// todo 进度
 		this.bootstrapRegistryInitializers = new ArrayList<>(
 				getSpringFactoriesInstances(BootstrapRegistryInitializer.class));
 		setInitializers((Collection) getSpringFactoriesInstances(ApplicationContextInitializer.class));
@@ -706,6 +707,7 @@ public class SpringApplication {
 		if (this.resourceLoader != null) {
 			return this.resourceLoader.getClassLoader();
 		}
+		// ClassLoaders$AppClassLoader
 		return ClassUtils.getDefaultClassLoader();
 	}
 
