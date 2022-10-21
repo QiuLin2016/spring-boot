@@ -16,6 +16,8 @@
 
 package smoketest.simple;
 
+import java.lang.ref.SoftReference;
+import org.springframework.util.ConcurrentReferenceHashMap;
 import smoketest.simple.service.HelloWorldService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +46,9 @@ public class SampleSimpleApplication implements CommandLineRunner {
 	}
 
 	public static void main(String[] args) {
+		//ConcurrentReferenceHashMap<String, String> cache = new ConcurrentReferenceHashMap<>();
+		SoftReference<String> stringSoftReference = new SoftReference<>("test");
+		System.out.println(stringSoftReference.get());
 		SpringApplication.run(SampleSimpleApplication.class, args);
 	}
 

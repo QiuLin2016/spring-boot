@@ -272,7 +272,7 @@ public class SpringApplication {
 		Assert.notNull(primarySources, "PrimarySources must not be null");
 		this.primarySources = new LinkedHashSet<>(Arrays.asList(primarySources));
 		this.webApplicationType = WebApplicationType.deduceFromClasspath();
-		// todo 进度
+		// 加载 BootstrapRegistryInitializer 接口的实现类
 		this.bootstrapRegistryInitializers = new ArrayList<>(
 				getSpringFactoriesInstances(BootstrapRegistryInitializer.class));
 		setInitializers((Collection) getSpringFactoriesInstances(ApplicationContextInitializer.class));
@@ -458,6 +458,7 @@ public class SpringApplication {
 	}
 
 	private <T> List<T> getSpringFactoriesInstances(Class<T> type, ArgumentResolver argumentResolver) {
+		// META-INF/spring.factories路径下的接口及实现类 返回 SpringFactoriesLoader 其中包含了 spring.factories的键值对的信息
 		return SpringFactoriesLoader.forDefaultResourceLocation(getClassLoader()).load(type, argumentResolver);
 	}
 
